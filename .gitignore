@@ -1,0 +1,6 @@
+# Source/internal files — not for public repo
+original files/
+unpacked/
+*.pptx
+claude.md
+slide-change-plan.md

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Setup Guide — KickStart Resources</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f1f5f9; color: #1e293b; line-height: 1.65; }
+    .page { max-width: 820px; margin: 0 auto; padding: 48px 32px 80px; }
+    .doc-header { background: #11377F; color: white; border-radius: 16px; padding: 36px 40px; margin-bottom: 40px; }
+    .doc-header-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #FFC000; margin-bottom: 8px; }
+    .doc-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .doc-header p { font-size: 15px; color: rgba(255,255,255,0.75); }
+    .back-link { display: inline-block; margin-bottom: 24px; font-size: 13px; color: #11377F; text-decoration: none; font-weight: 600; }
+    .back-link:hover { text-decoration: underline; }
+    section { background: white; border-radius: 14px; padding: 32px 36px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    h2 { font-size: 18px; font-weight: 700; color: #11377F; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #E5F6FF; }
+    h3 { font-size: 15px; font-weight: 700; color: #1e293b; margin: 20px 0 10px; }
+    p { margin-bottom: 12px; font-size: 15px; color: #334155; }
+    ul, ol { padding-left: 20px; margin-bottom: 12px; }
+    li { font-size: 15px; color: #334155; margin-bottom: 6px; }
+    code { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 5px; padding: 2px 7px; font-size: 13px; font-family: 'Courier New', monospace; color: #11377F; }
+    pre { background: #1e293b; color: #e2e8f0; border-radius: 10px; padding: 18px 22px; margin: 12px 0; overflow-x: auto; font-size: 13px; line-height: 1.6; }
+    pre code { background: none; border: none; padding: 0; color: #e2e8f0; font-size: 13px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
+    th { background: #f8fafc; font-weight: 700; color: #475569; text-align: left; padding: 10px 14px; border-bottom: 2px solid #e2e8f0; }
+    td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    .badge { display: inline-block; background: #E5F6FF; color: #11377F; font-size: 12px; font-weight: 600; padding: 3px 10px; border-radius: 20px; }
+    .gold-badge { background: #FFF8E1; color: #b38600; }
+    .step-num { display: inline-flex; align-items: center; justify-content: center; width: 24px; height: 24px; background: #11377F; color: white; border-radius: 50%; font-size: 12px; font-weight: 700; margin-right: 8px; flex-shrink: 0; }
+    .step { display: flex; align-items: flex-start; margin-bottom: 10px; }
+    .step-body { flex: 1; font-size: 15px; color: #334155; padding-top: 2px; }
+    .footer { text-align: center; margin-top: 40px; font-size: 13px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a class="back-link" href="../index.html">← Back to KickStart Resources</a>
+
+    <div class="doc-header">
+      <div class="doc-header-eyebrow">Trinity Advisory</div>
+      <h1>KickStart Resources — Setup Guide</h1>
+      <p>Deployment instructions, user guide, and troubleshooting reference</p>
+    </div>
+
+    <section>
+      <h2>What This Tool Does</h2>
+      <p>KickStart Resources is a web-based reference app that gives Kickstart program participants instant access to 20 Success Stack examples. Each example shows a complete Success Stack — an identity statement, a SMART goal, an X-Goal, and two Keystone Habits with supporting Daily Actions — covering both business and personal themes.</p>
+      <p>Users browse the sidebar, pick the example that resonates most, and see the full stack displayed in a clear, structured layout. The app is fully responsive and works on desktop, tablet, and mobile.</p>
+      <p><strong>Built by:</strong> Mark Nixey, Trinity Advisory &mdash; <a href="mailto:mark.nixey@trinityadvisory.com.au">mark.nixey@trinityadvisory.com.au</a></p>
+    </section>
+
+    <section>
+      <h2>How to Use the App</h2>
+      <div class="step"><span class="step-num">1</span><div class="step-body">Open the app URL in any modern web browser (Chrome, Safari, Edge, Firefox).</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-body">The left sidebar lists all 20 examples grouped by <strong>Business</strong> and <strong>Personal</strong>.</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-body">Click any example to display its full Success Stack in the main content area.</div></div>
+      <div class="step"><span class="step-num">4</span><div class="step-body">On mobile, tap the <strong>☰</strong> menu icon (top left) to open the example list, then tap any item.</div></div>
+      <div class="step"><span class="step-num">5</span><div class="step-body">Scroll down to read the Keystone Habits and Daily Actions at the bottom of each stack.</div></div>
+    </section>
+
+    <section>
+      <h2>Deploying to GitHub Pages</h2>
+      <h3>Step 1 — Create a GitHub repository</h3>
+      <div class="step"><span class="step-num">1</span><div class="step-body">Go to <a href="https://github.com">github.com</a> and sign in.</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-body">Click <strong>New repository</strong>. Give it a name (e.g. <code>kickstart-resources</code>).</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-body">Set visibility to <strong>Public</strong> (required for free GitHub Pages). Click <strong>Create repository</strong>.</div></div>
+
+      <h3>Step 2 — Upload the files</h3>
+      <div class="step"><span class="step-num">1</span><div class="step-body">In your new repository, click <strong>Add file → Upload files</strong>.</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-body">Drag in <code>index.html</code> and the entire <code>docs/</code> folder.</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-body">Click <strong>Commit changes</strong>.</div></div>
+
+      <h3>Step 3 — Enable GitHub Pages</h3>
+      <div class="step"><span class="step-num">1</span><div class="step-body">In the repository, go to <strong>Settings → Pages</strong>.</div></div>
+      <div class="step"><span class="step-num">2</span><div class="step-body">Under <strong>Source</strong>, select <strong>Deploy from a branch</strong>.</div></div>
+      <div class="step"><span class="step-num">3</span><div class="step-body">Set branch to <strong>main</strong> and folder to <strong>/ (root)</strong>. Click <strong>Save</strong>.</div></div>
+      <div class="step"><span class="step-num">4</span><div class="step-body">Wait 1–2 minutes. Your app will be live at:<br><code>https://[your-username].github.io/[repository-name]/</code></div></div>
+
+      <h3>Deploy via command line</h3>
+      <pre><code>git init
+git add .
+git commit -m "Initial deploy"
+git branch -M main
+git remote add origin https://github.com/[username]/[repo-name].git
+git push -u origin main</code></pre>
+      <p>Then enable Pages in Settings as above.</p>
+    </section>
+
+    <section>
+      <h2>How to Add or Edit Examples</h2>
+      <p>All content lives in the <code>EXAMPLES</code> array inside <code>index.html</code>. No build tools or server are needed — just edit the file and push/re-upload.</p>
+
+      <h3>To edit an existing example</h3>
+      <ol>
+        <li>Open <code>index.html</code> in any text editor (Notepad, VS Code, etc.).</li>
+        <li>Search for the example title (e.g. <code>'Financial Control'</code>).</li>
+        <li>Update the relevant field: <code>iAmStatement</code>, <code>smartGoal</code>, <code>xGoal</code>, habit text, or daily actions.</li>
+        <li>Save the file and re-upload or push to GitHub.</li>
+      </ol>
+
+      <h3>To add a new example</h3>
+      <ol>
+        <li>Copy an existing object from the <code>EXAMPLES</code> array in <code>index.html</code>.</li>
+        <li>Paste it at the end of the array (before the closing <code>]</code>) and update all fields.</li>
+        <li>Set <code>category</code> to either <code>'business'</code> or <code>'personal'</code>.</li>
+        <li>Save and redeploy.</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>Building From Source</h2>
+      <p>There is no build process. The entire app is a single <code>index.html</code> file with inline CSS and JavaScript. Open it directly in a browser for local development:</p>
+      <pre><code># macOS / Linux
+open index.html
+
+# Windows
+start index.html</code></pre>
+      <p>Or run a simple local server:</p>
+      <pre><code>npx serve .
+# then open http://localhost:3000</code></pre>
+      <p>No dependencies, no <code>npm install</code>, no compilation step required.</p>
+    </section>
+
+    <section>
+      <h2>Troubleshooting</h2>
+      <table>
+        <tr>
+          <th>Problem</th>
+          <th>Likely cause</th>
+          <th>Fix</th>
+        </tr>
+        <tr>
+          <td>Sidebar not visible on desktop</td>
+          <td>Browser window too narrow</td>
+          <td>Widen to at least 768px</td>
+        </tr>
+        <tr>
+          <td>App shows blank page</td>
+          <td>File in wrong location</td>
+          <td>Ensure <code>index.html</code> is at the repository root</td>
+        </tr>
+        <tr>
+          <td>Fonts look plain / different</td>
+          <td>Google Fonts blocked or offline</td>
+          <td>Expected behaviour offline — system font fallback applies</td>
+        </tr>
+        <tr>
+          <td>GitHub Pages returns 404</td>
+          <td>Pages not yet enabled or too recent</td>
+          <td>Wait 2–3 minutes after enabling or pushing</td>
+        </tr>
+        <tr>
+          <td>Content looks squashed on mobile</td>
+          <td>Old browser</td>
+          <td>Use Chrome, Safari 14+, or Edge</td>
+        </tr>
+      </table>
+    </section>
+
+    <div class="footer">
+      KickStart Resources &mdash; Built by Trinity Advisory &mdash; mark.nixey@trinityadvisory.com.au
+    </div>
+  </div>
+</body>
+</html>

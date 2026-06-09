@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Resources Reference — KickStart Resources</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #f1f5f9; color: #1e293b; line-height: 1.65; }
+    .page { max-width: 820px; margin: 0 auto; padding: 48px 32px 80px; }
+    .doc-header { background: #11377F; color: white; border-radius: 16px; padding: 36px 40px; margin-bottom: 40px; }
+    .doc-header-eyebrow { font-size: 11px; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: #FFC000; margin-bottom: 8px; }
+    .doc-header h1 { font-size: 28px; font-weight: 800; margin-bottom: 8px; }
+    .doc-header p { font-size: 15px; color: rgba(255,255,255,0.75); }
+    .back-link { display: inline-block; margin-bottom: 24px; font-size: 13px; color: #11377F; text-decoration: none; font-weight: 600; }
+    .back-link:hover { text-decoration: underline; }
+    section { background: white; border-radius: 14px; padding: 32px 36px; margin-bottom: 20px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    h2 { font-size: 18px; font-weight: 700; color: #11377F; margin-bottom: 16px; padding-bottom: 12px; border-bottom: 2px solid #E5F6FF; }
+    h3 { font-size: 15px; font-weight: 700; color: #1e293b; margin: 20px 0 12px; }
+    p { margin-bottom: 12px; font-size: 15px; color: #334155; }
+    ul, ol { padding-left: 20px; margin-bottom: 12px; }
+    li { font-size: 15px; color: #334155; margin-bottom: 6px; }
+    code { background: #f1f5f9; border: 1px solid #e2e8f0; border-radius: 5px; padding: 2px 7px; font-size: 13px; font-family: 'Courier New', monospace; color: #11377F; }
+    pre { background: #1e293b; color: #e2e8f0; border-radius: 10px; padding: 18px 22px; margin: 12px 0; overflow-x: auto; font-size: 13px; line-height: 1.7; }
+    pre code { background: none; border: none; padding: 0; color: #e2e8f0; }
+    table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 14px; }
+    th { background: #f8fafc; font-weight: 700; color: #475569; text-align: left; padding: 10px 14px; border-bottom: 2px solid #e2e8f0; }
+    td { padding: 10px 14px; border-bottom: 1px solid #f1f5f9; color: #334155; vertical-align: top; }
+    tr:last-child td { border-bottom: none; }
+    .swatch { display: inline-block; width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,0.1); vertical-align: middle; margin-right: 6px; }
+    .layer-row td:first-child { font-weight: 700; }
+    .layer-1 { border-left: 4px solid #11377F; }
+    .layer-2 { border-left: 4px solid #11377F; }
+    .layer-3 { border-left: 4px solid #FFC000; }
+    .layer-4 { border-left: 4px solid #11377F; }
+    .category-header td { background: #f8fafc; font-weight: 700; color: #11377F; font-size: 12px; letter-spacing: 0.06em; text-transform: uppercase; }
+    .footer { text-align: center; margin-top: 40px; font-size: 13px; color: #94a3b8; }
+  </style>
+</head>
+<body>
+  <div class="page">
+    <a class="back-link" href="../index.html">← Back to KickStart Resources</a>
+
+    <div class="doc-header">
+      <div class="doc-header-eyebrow">Trinity Advisory</div>
+      <h1>Technology &amp; Resources Reference</h1>
+      <p>Stack, data flow, file structure, and example index</p>
+    </div>
+
+    <section>
+      <h2>The Success Stack Framework</h2>
+      <p>The Success Stack is a 4-layer execution framework used in Trinity Advisory's Kickstart coaching program. Each layer builds on the one before it:</p>
+      <table>
+        <tr><th>#</th><th>Layer</th><th>Purpose</th></tr>
+        <tr class="layer-1"><td>1</td><td><strong>I Am Statement</strong></td><td>Identity — who you are becoming</td></tr>
+        <tr class="layer-2"><td>2</td><td><strong>SMART Goal</strong></td><td>Specific, measurable 30–90 day target</td></tr>
+        <tr class="layer-3"><td>3</td><td><strong>X-Goal</strong></td><td>Bold, ambitious 12-month outcome</td></tr>
+        <tr class="layer-4"><td>4</td><td><strong>Keystone Habits + Daily Actions</strong></td><td>The recurring behaviour that drives the result</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Application Stack</h2>
+      <table>
+        <tr><th>Component</th><th>Technology</th></tr>
+        <tr><td>Runtime</td><td>Browser (no server required)</td></tr>
+        <tr><td>Frontend</td><td>Vanilla HTML, CSS, JavaScript (ES6)</td></tr>
+        <tr><td>Fonts</td><td>Inter via Google Fonts CDN (system fonts fallback)</td></tr>
+        <tr><td>Hosting</td><td>GitHub Pages (static file serving)</td></tr>
+        <tr><td>Build process</td><td>None — single file, no compilation</td></tr>
+        <tr><td>Dependencies</td><td>None (zero npm packages)</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>File Structure</h2>
+      <pre><code>claude code - kickstart success stack/
+├── index.html              ← Entire app: layout, styles, JS, content data
+├── docs/
+│   ├── setup.md            ← Setup and user guide (source of truth)
+│   ├── setup.html          ← Setup guide rendered as HTML
+│   ├── resources.md        ← Technology and resources reference
+│   └── resources.html      ← Resources reference rendered as HTML (this file)
+└── original files/
+    ├── 20 Examples of I Am Statements...docx
+    └── Presentation - Kickstart 01 - Clarity and Identity.pptx</code></pre>
+    </section>
+
+    <section>
+      <h2>Data Flow</h2>
+      <ol>
+        <li>All 20 Success Stack examples are stored as a JavaScript array (<code>EXAMPLES</code>) inside <code>index.html</code>.</li>
+        <li>On page load, <code>renderSidebar()</code> reads <code>EXAMPLES</code> and builds the navigation list.</li>
+        <li><code>selectExample(id)</code> is called when a user clicks a sidebar item (or on first load for the default).</li>
+        <li>The function finds the matching example object and builds the four layer cards as an HTML string injected into <code>#content-area</code>.</li>
+        <li>No network requests are made after the initial page load (except Google Fonts).</li>
+      </ol>
+    </section>
+
+    <section>
+      <h2>All 20 Success Stack Examples</h2>
+
+      <table>
+        <tr><th>#</th><th>Title</th><th>Focus</th></tr>
+        <tr class="category-header"><td colspan="3">Business (1–12)</td></tr>
+        <tr><td>1</td><td>Financial Control</td><td>Revenue, profit, cash flow, debtors</td></tr>
+        <tr><td>2</td><td>Pricing and Profit</td><td>Margin protection, confident quoting</td></tr>
+        <tr><td>3</td><td>Working On the Business</td><td>CEO Hour rhythm, weekly strategy</td></tr>
+        <tr><td>4</td><td>Systems-Driven Operator</td><td>Documenting and improving processes</td></tr>
+        <tr><td>5</td><td>Team Ownership</td><td>Delegation and building accountability</td></tr>
+        <tr><td>6</td><td>Leadership and Accountability</td><td>Huddles, standards, accountability culture</td></tr>
+        <tr><td>7</td><td>Empowering Leadership</td><td>Check-ins, coaching, reducing interruptions</td></tr>
+        <tr><td>8</td><td>Sales Pipeline</td><td>Follow-up, CRM, pipeline management</td></tr>
+        <tr><td>9</td><td>Marketing and Demand Generation</td><td>Content creation, inbound leads</td></tr>
+        <tr><td>10</td><td>Ideal Clients</td><td>Ideal-client checklist, saying no</td></tr>
+        <tr><td>11</td><td>Focused Operator</td><td>Deep work, time blocking</td></tr>
+        <tr><td>12</td><td>Disciplined Follow-Through</td><td>Non-negotiables, consistency</td></tr>
+        <tr class="category-header"><td colspan="3">Personal (13–20)</td></tr>
+        <tr><td>13</td><td>Calm Under Pressure</td><td>Pause-and-plan, stress response</td></tr>
+        <tr><td>14</td><td>Resilient Owner</td><td>Minimum viable habits, self-trust</td></tr>
+        <tr><td>15</td><td>Health and Energy</td><td>Exercise, sleep, energy management</td></tr>
+        <tr><td>16</td><td>Work-Life Boundaries</td><td>Shutdown rituals, 45-hour weeks</td></tr>
+        <tr><td>17</td><td>Present Parent</td><td>Phone-free family time, school holidays</td></tr>
+        <tr><td>18</td><td>Connected Partner</td><td>Weekly date night, relationship presence</td></tr>
+        <tr><td>19</td><td>Intentional Morning</td><td>Morning routine, phone-free planning</td></tr>
+        <tr><td>20</td><td>Personal Growth and Reflection</td><td>Weekly reflection, end-of-day review</td></tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Brand Colours</h2>
+      <table>
+        <tr><th>Name</th><th>Hex</th><th>Usage</th></tr>
+        <tr>
+          <td>Primary Blue</td>
+          <td><span class="swatch" style="background:#11377F"></span><code>#11377F</code></td>
+          <td>Sidebar background, card borders, headings</td>
+        </tr>
+        <tr>
+          <td>Light Blue</td>
+          <td><span class="swatch" style="background:#E5F6FF"></span><code>#E5F6FF</code></td>
+          <td>I Am Statement card background</td>
+        </tr>
+        <tr>
+          <td>Gold</td>
+          <td><span class="swatch" style="background:#FFC000"></span><code>#FFC000</code></td>
+          <td>Active sidebar indicator, schedule badges, X-Goal border</td>
+        </tr>
+        <tr>
+          <td>Gray</td>
+          <td><span class="swatch" style="background:#A6A6A6"></span><code>#A6A6A6</code></td>
+          <td>Secondary labels and muted text</td>
+        </tr>
+        <tr>
+          <td>Light Gold</td>
+          <td><span class="swatch" style="background:#FFF8E1"></span><code>#FFF8E1</code></td>
+          <td>X-Goal card background</td>
+        </tr>
+      </table>
+    </section>
+
+    <section>
+      <h2>Network and Security Notes</h2>
+      <ul>
+        <li>The app makes no API calls and stores no user data.</li>
+        <li>No cookies, no local storage, no analytics.</li>
+        <li>The only external resource is Google Fonts (Inter). The app works fully offline — the browser falls back to system fonts.</li>
+        <li>No backend, no authentication, no sensitive data of any kind.</li>
+        <li>Safe to host publicly on GitHub Pages with no additional security configuration.</li>
+      </ul>
+    </section>
+
+    <div class="footer">
+      KickStart Resources &mdash; Built by Trinity Advisory &mdash; mark.nixey@trinityadvisory.com.au
+    </div>
+  </div>
+</body>
+</html>

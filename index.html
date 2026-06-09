@@ -1,0 +1,1697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>KickStart Resources — Success Stack Examples</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #f1f5f9;
+      color: #1e293b;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* ── Layout shell ── */
+    .app-layout { display: flex; height: 100vh; overflow: hidden; }
+
+    /* ── Sidebar ── */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+      background: #11377F;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      scrollbar-width: thin;
+      scrollbar-color: rgba(255,255,255,0.2) transparent;
+    }
+    .sidebar::-webkit-scrollbar { width: 4px; }
+    .sidebar::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 2px; }
+
+    .sidebar-brand {
+      padding: 24px 20px 20px;
+      border-bottom: 1px solid rgba(255,255,255,0.12);
+      flex-shrink: 0;
+    }
+    /* Change 1 & 2: Trinity Advisory now 20px white; KickStart Resources now gold */
+    .brand-eyebrow {
+      font-size: 20px;
+      font-weight: 800;
+      color: white;
+      line-height: 1.15;
+      margin-bottom: 2px;
+    }
+    .brand-name {
+      font-size: 20px;
+      font-weight: 800;
+      color: #FFC000;
+      line-height: 1.15;
+    }
+    .brand-subtitle {
+      font-size: 12px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 6px;
+      font-weight: 500;
+    }
+
+    .sidebar-list { flex: 1; padding-bottom: 8px; }
+
+    .sidebar-category {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.35);
+      padding: 20px 20px 8px;
+    }
+
+    .sidebar-item {
+      display: flex;
+      align-items: flex-start;
+      width: 100%;
+      text-align: left;
+      padding: 10px 20px;
+      border: none;
+      background: transparent;
+      color: rgba(255,255,255,0.72);
+      font-size: 13.5px;
+      font-family: inherit;
+      cursor: pointer;
+      border-left: 3px solid transparent;
+      transition: background 0.15s, color 0.15s, border-color 0.15s;
+      line-height: 1.4;
+      gap: 0;
+    }
+    .sidebar-item:hover { background: rgba(255,255,255,0.08); color: white; }
+    .sidebar-item.active {
+      background: rgba(255,255,255,0.14);
+      border-left-color: #FFC000;
+      color: white;
+      font-weight: 600;
+    }
+    .sidebar-num {
+      color: rgba(255,255,255,0.3);
+      font-size: 11px;
+      font-weight: 400;
+      flex-shrink: 0;
+      min-width: 24px;
+      padding-top: 1px;
+    }
+    .sidebar-title { flex: 1; }
+    .sidebar-item.active .sidebar-num { color: rgba(255,255,255,0.55); }
+
+    /* Sidebar PDF button (visible on mobile when sidebar is open) */
+    .pdf-btn {
+      margin: 10px 16px 4px;
+      padding: 11px 16px;
+      background: rgba(255,192,0,0.12);
+      border: 1.5px solid rgba(255,192,0,0.35);
+      border-radius: 10px;
+      color: #FFC000;
+      font-size: 13.5px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      text-align: center;
+      width: calc(100% - 32px);
+      transition: all 0.15s;
+      display: block;
+      flex-shrink: 0;
+    }
+    .pdf-btn:hover { background: rgba(255,192,0,0.22); border-color: rgba(255,192,0,0.6); }
+
+    /* Top bar download button */
+    .content-topbar {
+      background: white;
+      border-bottom: 1px solid #e2e8f0;
+      padding: 12px 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      flex-shrink: 0;
+    }
+    .topbar-download-btn {
+      background: #FFC000;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 10px;
+      padding: 11px 28px;
+      font-size: 15px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      transition: background 0.15s, transform 0.1s;
+    }
+    .topbar-download-btn:hover { background: #e6ac00; transform: translateY(-1px); }
+
+    .sidebar-footer {
+      padding: 12px 20px 16px;
+      font-size: 11px;
+      color: rgba(255,255,255,0.25);
+      text-align: center;
+      flex-shrink: 0;
+    }
+
+    /* ── Main content ── */
+    .main-content { flex: 1; overflow-y: auto; background: #f1f5f9; }
+    .content-inner { max-width: 860px; margin: 0 auto; padding: 32px 40px 60px; }
+
+    /* ── Example header ── */
+    .example-header { margin-bottom: 28px; }
+    .example-meta {
+      font-size: 11.5px;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #A6A6A6;
+      margin-bottom: 8px;
+    }
+    .example-meta span {
+      display: inline-block;
+      background: #e2e8f0;
+      color: #64748b;
+      padding: 2px 10px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      margin-left: 8px;
+      letter-spacing: 0.05em;
+    }
+    .example-title {
+      font-size: 34px;
+      font-weight: 800;
+      color: #11377F;
+      line-height: 1.15;
+    }
+
+    /* ── Layer cards ── */
+    .layer-card {
+      border-radius: 16px;
+      padding: 24px 28px;
+      margin-bottom: 16px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 8px rgba(0,0,0,0.04);
+    }
+    .layer-label {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+    }
+
+    /* I Am Statement */
+    .iam-card {
+      background: #E5F6FF;
+      border-left: 5px solid #11377F;
+      position: relative;
+      overflow: hidden;
+    }
+    .iam-card .layer-label { color: #11377F; opacity: 0.55; }
+    .iam-quote {
+      font-size: 18px;
+      font-style: italic;
+      color: #11377F;
+      line-height: 1.55;
+      font-weight: 500;
+      position: relative;
+      z-index: 1;
+      padding-right: 60px;
+    }
+    .iam-deco {
+      position: absolute;
+      bottom: -16px;
+      right: 20px;
+      font-size: 120px;
+      color: #11377F;
+      opacity: 0.07;
+      font-style: normal;
+      font-family: Georgia, serif;
+      line-height: 1;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    /* Goals row */
+    .goals-row { display: flex; gap: 16px; margin-bottom: 16px; }
+    .goal-card {
+      flex: 1;
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.07), 0 1px 8px rgba(0,0,0,0.04);
+    }
+    .smart-card { background: white; border-left: 5px solid #11377F; }
+    .smart-card .layer-label { color: #11377F; opacity: 0.55; }
+    .xgoal-card { background: #FFF8E1; border-left: 5px solid #FFC000; }
+    .xgoal-card .layer-label { color: #b38600; }
+    .goal-text { font-size: 15px; line-height: 1.65; color: #334155; }
+    .xgoal-card .goal-text { font-weight: 600; color: #1e293b; }
+
+    /* Keystone Habits */
+    .habits-card {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      padding: 24px 28px;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+    }
+    .habits-card .layer-label { color: #11377F; opacity: 0.55; margin-bottom: 16px; }
+    .habits-grid { display: flex; gap: 16px; }
+    .habit-block {
+      background: white;
+      border-radius: 12px;
+      padding: 20px 22px;
+      flex: 1;
+      border: 1px solid #e8edf3;
+      min-width: 0;
+    }
+    .habit-num-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #A6A6A6;
+      margin-bottom: 8px;
+    }
+    .habit-schedule-badge {
+      display: inline-block;
+      background: #FFC000;
+      color: #1a1a1a;
+      font-size: 11px;
+      font-weight: 700;
+      padding: 4px 12px;
+      border-radius: 20px;
+      margin-bottom: 12px;
+      line-height: 1.3;
+    }
+    .habit-text {
+      font-size: 14px;
+      font-weight: 600;
+      color: #1e293b;
+      line-height: 1.55;
+      margin-bottom: 16px;
+    }
+    .daily-actions-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #A6A6A6;
+      margin-bottom: 10px;
+    }
+    .daily-action {
+      display: flex;
+      gap: 10px;
+      align-items: flex-start;
+      margin-bottom: 9px;
+    }
+    .action-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #11377F;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+    .action-text { font-size: 13px; color: #475569; line-height: 1.55; }
+
+    /* Welcome state */
+    .welcome-state {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 60vh;
+    }
+    .welcome-card {
+      background: #E5F6FF;
+      border-radius: 20px;
+      padding: 48px 44px;
+      text-align: center;
+      max-width: 420px;
+    }
+    .welcome-title { font-size: 20px; font-weight: 700; color: #11377F; margin-bottom: 10px; }
+    .welcome-text { font-size: 15px; color: #4a6fa5; line-height: 1.65; }
+
+    /* ── Mobile header ── */
+    .mobile-header {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 56px;
+      background: #11377F;
+      z-index: 300;
+      align-items: center;
+      padding: 0 16px;
+      gap: 12px;
+    }
+    .mobile-title { color: white; font-size: 15px; font-weight: 700; flex: 1; }
+    .hamburger {
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+      flex-shrink: 0;
+    }
+    .hamburger span { display: block; width: 22px; height: 2px; background: white; border-radius: 1px; }
+
+    /* ── Sidebar overlay ── */
+    .overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      z-index: 199;
+    }
+    .overlay.show { display: block; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.55);
+      z-index: 600;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.show { display: flex; }
+
+    .modal {
+      background: white;
+      border-radius: 20px;
+      width: 100%;
+      max-width: 560px;
+      max-height: 90vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 64px rgba(0,0,0,0.3);
+    }
+
+    .modal-header {
+      padding: 22px 28px 18px;
+      background: #11377F;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+    }
+    .modal-header-text h2 { font-size: 18px; font-weight: 800; color: white; }
+    .modal-header-text p { font-size: 12px; color: rgba(255,255,255,0.6); margin-top: 2px; }
+    .modal-close {
+      background: rgba(255,255,255,0.15);
+      border: none;
+      color: white;
+      font-size: 18px;
+      cursor: pointer;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: background 0.15s;
+      flex-shrink: 0;
+    }
+    .modal-close:hover { background: rgba(255,255,255,0.28); }
+
+    .modal-body { flex: 1; overflow-y: auto; padding: 24px 28px; }
+
+    .modal-form-group { margin-bottom: 16px; }
+    .modal-form-group label {
+      display: block;
+      font-size: 13px;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 6px;
+    }
+    .modal-input {
+      width: 100%;
+      border: 1.5px solid #e2e8f0;
+      border-radius: 10px;
+      padding: 11px 14px;
+      font-size: 15px;
+      font-family: inherit;
+      color: #1e293b;
+      outline: none;
+      transition: border-color 0.15s;
+    }
+    .modal-input:focus { border-color: #11377F; }
+
+    .modal-divider {
+      border: none;
+      border-top: 1px solid #f1f5f9;
+      margin: 20px 0;
+    }
+
+    .modal-examples-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 4px;
+    }
+    .modal-examples-label { font-size: 13px; font-weight: 600; color: #374151; }
+    .modal-count { font-size: 12px; color: #A6A6A6; font-weight: 500; }
+
+    .modal-toggle-row { display: flex; gap: 8px; margin-bottom: 14px; margin-top: 8px; }
+    .modal-toggle-btn {
+      font-size: 12px;
+      font-weight: 600;
+      padding: 4px 14px;
+      border-radius: 20px;
+      border: 1.5px solid #e2e8f0;
+      background: white;
+      color: #64748b;
+      cursor: pointer;
+      transition: all 0.15s;
+      font-family: inherit;
+    }
+    .modal-toggle-btn:hover { border-color: #11377F; color: #11377F; }
+
+    .modal-category-lbl {
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: #A6A6A6;
+      padding: 10px 0 6px;
+    }
+
+    .modal-check-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 7px 10px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: background 0.12s;
+    }
+    .modal-check-item:hover { background: #f8fafc; }
+    .modal-check-item input[type="checkbox"] {
+      width: 16px;
+      height: 16px;
+      accent-color: #11377F;
+      cursor: pointer;
+      flex-shrink: 0;
+    }
+    .modal-check-num { color: #A6A6A6; font-size: 11.5px; min-width: 22px; }
+    .modal-check-title { font-size: 14px; color: #334155; }
+
+    .modal-footer {
+      padding: 16px 28px;
+      border-top: 1px solid #f1f5f9;
+      display: flex;
+      gap: 10px;
+      justify-content: flex-end;
+      flex-shrink: 0;
+      background: #f8fafc;
+    }
+    .btn-cancel {
+      padding: 10px 20px;
+      border-radius: 10px;
+      border: 1.5px solid #e2e8f0;
+      background: white;
+      color: #64748b;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: all 0.15s;
+    }
+    .btn-cancel:hover { background: #f1f5f9; border-color: #cbd5e1; }
+    .btn-submit {
+      padding: 10px 22px;
+      border-radius: 10px;
+      border: none;
+      background: #11377F;
+      color: white;
+      font-size: 14px;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.15s;
+    }
+    .btn-submit:hover { background: #0e2d6a; }
+    .btn-submit:disabled { background: #A6A6A6; cursor: not-allowed; }
+
+    /* ── Toast notification ── */
+    .toast {
+      position: fixed;
+      bottom: 28px;
+      left: 50%;
+      transform: translateX(-50%) translateY(16px);
+      background: #11377F;
+      color: white;
+      padding: 14px 24px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 600;
+      z-index: 900;
+      opacity: 0;
+      transition: opacity 0.3s, transform 0.3s;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+      pointer-events: none;
+      white-space: nowrap;
+    }
+    .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
+
+    /* ── Responsive ── */
+    /* On desktop, sidebar button is redundant — topbar handles it */
+    @media (min-width: 768px) {
+      .pdf-btn { display: none; }
+    }
+
+    @media (max-width: 767px) {
+      body { overflow: auto; }
+      .mobile-header { display: flex; }
+      .app-layout { height: auto; min-height: 100vh; overflow: visible; }
+      .sidebar {
+        position: fixed;
+        left: -264px;
+        top: 0;
+        bottom: 0;
+        z-index: 200;
+        height: 100vh;
+        width: 260px;
+        transition: left 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+      }
+      .sidebar.open { left: 0; box-shadow: 4px 0 24px rgba(0,0,0,0.25); }
+      .main-content { overflow-y: visible; height: auto; }
+      .content-inner { padding: 24px 16px 48px; }
+      .content-topbar { display: none; }
+      .modal-overlay { padding: 0; align-items: flex-end; }
+      .modal { border-radius: 20px 20px 0 0; max-height: 96vh; }
+    }
+
+    @media (max-width: 600px) {
+      .goals-row { flex-direction: column; }
+      .habits-grid { flex-direction: column; }
+      .example-title { font-size: 26px; }
+      .iam-quote { font-size: 16px; padding-right: 20px; }
+      .layer-card { padding: 20px; }
+      .goal-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Mobile top bar -->
+  <div class="mobile-header">
+    <button class="hamburger" onclick="toggleSidebar()" aria-label="Open navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <span class="mobile-title">KickStart Resources</span>
+  </div>
+
+  <!-- Sidebar drawer overlay -->
+  <div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+  <div class="app-layout">
+
+    <!-- Sidebar -->
+    <nav class="sidebar" id="sidebar">
+      <div class="sidebar-brand">
+        <div class="brand-eyebrow">Trinity Advisory</div>
+        <div class="brand-name">KickStart Resources</div>
+        <div class="brand-subtitle">Success Stack Examples</div>
+      </div>
+      <div class="sidebar-list" id="sidebar-list"></div>
+      <button class="pdf-btn" onclick="openEmailModal()">⬇ Download a PDF</button>
+      <div class="sidebar-footer">mark.nixey@trinityadvisory.com.au</div>
+    </nav>
+
+    <!-- Main content -->
+    <main class="main-content">
+      <div class="content-topbar">
+        <button class="topbar-download-btn" onclick="openEmailModal()">⬇ Download a PDF</button>
+      </div>
+      <div class="content-inner" id="content-area"></div>
+    </main>
+
+  </div>
+
+  <!-- Email PDF Modal -->
+  <div class="modal-overlay" id="modal-overlay">
+    <div class="modal" id="modal">
+      <div class="modal-header">
+        <div class="modal-header-text">
+          <h2>Download a PDF</h2>
+          <p>Choose your examples and download your Success Stack</p>
+        </div>
+        <button class="modal-close" onclick="closeEmailModal()" aria-label="Close">&#x2715;</button>
+      </div>
+      <div class="modal-body">
+        <div class="modal-form-group">
+          <label for="pdf-name">Full Name</label>
+          <input class="modal-input" type="text" id="pdf-name" placeholder="Your full name" autocomplete="name">
+        </div>
+        <div class="modal-form-group">
+          <label for="pdf-email">Email Address</label>
+          <input class="modal-input" type="email" id="pdf-email" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <hr class="modal-divider">
+        <div class="modal-examples-header">
+          <span class="modal-examples-label">Examples to include</span>
+          <span class="modal-count" id="modal-count">20 of 20 selected</span>
+        </div>
+        <div class="modal-toggle-row">
+          <button class="modal-toggle-btn" onclick="setAllCheckboxes(true)">Select all</button>
+          <button class="modal-toggle-btn" onclick="setAllCheckboxes(false)">Deselect all</button>
+        </div>
+        <div id="modal-examples-list"></div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-cancel" onclick="closeEmailModal()">Cancel</button>
+        <button class="btn-submit" id="btn-submit" onclick="submitPDFForm()">Download my PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Toast notification -->
+  <div class="toast" id="toast"></div>
+
+  <script>
+    // ─────────────────────────────────────────────────────────────
+    // Power Automate Configuration (optional — Microsoft 365 required)
+    // 5-minute setup:
+    //   1. power.automate.com → Create → Instant flow
+    //   2. Trigger: "When an HTTP request is received"  (leave schema blank)
+    //   3. Add action: "Send an email (V2)"
+    //        To:      triggerBody()?['email']
+    //        Subject: "Your KickStart Success Stack"
+    //        Body:    Hi @{triggerBody()?['name']} — your PDF has been downloaded.
+    //                 Selected: @{triggerBody()?['selected_count']} examples.
+    //                 @{triggerBody()?['examples_list']}
+    //   4. Save, then copy the HTTP POST URL and paste below
+    // Leave blank — PDF still downloads automatically without email.
+    // ─────────────────────────────────────────────────────────────
+    const POWER_AUTOMATE_URL = '';   // e.g. 'https://prod-xx.westus.logic.azure.com/workflows/...'
+
+    // ─────────────────────────────────────────────────────────────
+    // Content data — all 20 Success Stack examples
+    // ─────────────────────────────────────────────────────────────
+    const EXAMPLES = [
+      {
+        id: 'financial-control',
+        num: 1,
+        category: 'business',
+        title: 'Financial Control',
+        iAmStatement: 'I am a financially focused business owner who leads with numbers, not guesswork.',
+        smartGoal: 'Review revenue, gross profit, cash flow, debtors and pipeline every Monday for the next 8 weeks.',
+        xGoal: 'Increase net profit by 10% and reduce overdue debtors by 75% by the end of the year.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Monday at 8:00am',
+            habit: 'Before opening email, I complete a 30-minute financial dashboard review using current job, cash-flow and debtor data.',
+            dailyActions: [
+              'Each afternoon before 4:00pm, I check that completed jobs, labour hours, variations and job notes have been entered for the day.',
+              'Each afternoon before 4:30pm, I confirm invoices, supplier bills, debtors and cash movements are updated or assigned to the bookkeeping team.'
+            ]
+          },
+          {
+            schedule: 'Every Friday at 3:00pm',
+            habit: 'I complete a 20-minute job profitability check on completed jobs before the week closes.',
+            dailyActions: [
+              'Before closing each completed job, I confirm labour, materials, variations and extras have been captured.',
+              'Each day before leaving work, I flag any job with missing data, margin concerns or unbilled work for Friday\'s review.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'pricing-and-profit',
+        num: 2,
+        category: 'business',
+        title: 'Pricing and Profit',
+        iAmStatement: 'I am a confident owner who prices for value and protects profit without guilt.',
+        smartGoal: 'Send all quotes this month at the correct margin without apologising, discounting or throwing in extras for free.',
+        xGoal: 'Become known as a premium provider who attracts clients who value quality, process and professionalism.',
+        keystoneHabits: [
+          {
+            schedule: 'Before any quote over $2,000',
+            habit: 'I complete a pricing checklist to confirm margin, labour, materials, overhead recovery and value delivered.',
+            dailyActions: [
+              'Each afternoon before 4:00pm, I note one pricing issue, scope creep example or margin lesson from the day.',
+              'Before leaving work, I confirm any extra work, variations or client changes have been recorded for quoting or invoicing.'
+            ]
+          },
+          {
+            schedule: 'Every Friday at 11:00am',
+            habit: 'I review three quotes or completed jobs to identify where profit was protected or lost.',
+            dailyActions: [
+              'Each day, I save any quote, client objection or pricing decision that needs to be reviewed on Friday.',
+              'Each afternoon, I update the quote notes with any assumptions, exclusions or pricing risks identified that day.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'working-on-the-business',
+        num: 3,
+        category: 'business',
+        title: 'Working On the Business',
+        iAmStatement: 'I am a proactive business owner who works on the business every week, not just in the business every day.',
+        smartGoal: 'Complete one 90-minute CEO Hour every week for the next 12 weeks.',
+        xGoal: 'Create a weekly rhythm where strategy, numbers, team and systems are reviewed without being pushed aside by urgent work.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Monday, 9:00am–9:30am',
+            habit: 'In my office with the door closed, I complete CEO Hour before opening non-urgent email.',
+            dailyActions: [
+              'Each day before 4:30pm, I add one issue, opportunity or decision to my CEO Hour list.',
+              'Each day before leaving work, I tag that item as finance, team, systems, client, sales or personal so Monday\'s CEO Hour is focused.'
+            ]
+          },
+          {
+            schedule: 'Every Friday at 3:30pm',
+            habit: 'I complete a 20-minute weekly reset before finishing work.',
+            dailyActions: [
+              'Each afternoon, I record one win, one unfinished priority or one lesson from the day.',
+              'Each day before leaving work, I move any unfinished important item into the Friday reset list instead of leaving it floating.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'systems-driven-operator',
+        num: 4,
+        category: 'business',
+        title: 'Systems-Driven Operator',
+        iAmStatement: 'I am a systems-driven operator who builds a business that runs without everything depending on me.',
+        smartGoal: 'Document five core systems in the next 90 days.',
+        xGoal: 'Build a business where the team can run 80% of daily operations without me by the end of the year.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Tuesday at 10:00am',
+            habit: 'I spend 60 minutes documenting or improving one recurring business process.',
+            dailyActions: [
+              'Each day before 4:30pm, I write down one repeated question, mistake or task that needs a system.',
+              'Each day, I save one example, screenshot, checklist or instruction that could help document the process.'
+            ]
+          },
+          {
+            schedule: 'Every Thursday at 2:00pm',
+            habit: 'I review one process with the person who uses it most and update it based on their feedback.',
+            dailyActions: [
+              'Each day, I note one point where the team got stuck, guessed or asked me for help.',
+              'Before Thursday\'s review, I collect the most useful example or issue from the week to improve the system.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'team-ownership',
+        num: 5,
+        category: 'business',
+        title: 'Team Ownership',
+        iAmStatement: 'I am an owner who builds a team that takes ownership, solves problems and grows in confidence.',
+        smartGoal: 'Delegate one recurring task or responsibility properly within the next 30 days.',
+        xGoal: 'Build a team where key people own outcomes without waiting for me to chase, rescue or approve everything.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Wednesday at 9:30am',
+            habit: 'I review one task, decision or responsibility I am still holding unnecessarily and prepare it for delegation.',
+            dailyActions: [
+              'Each day, I write down one task or decision I handled that someone else could eventually own.',
+              'Each afternoon, I note what standard, instruction or support would be needed for someone else to take ownership.'
+            ]
+          },
+          {
+            schedule: 'When a team member brings a problem',
+            habit: 'I ask one ownership question before giving advice.',
+            dailyActions: [
+              'Each day, I practise asking, "What have you tried, and what do you recommend?" before giving the answer.',
+              'After the conversation, I confirm the next action, owner and deadline so the responsibility stays with them.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'leadership-and-accountability',
+        num: 6,
+        category: 'business',
+        title: 'Leadership and Accountability',
+        iAmStatement: 'I am a leader who creates standards, not chaos, and holds people accountable with clarity and respect.',
+        smartGoal: 'Run a 15-minute team huddle every Monday for the next 8 weeks with three clear points: priorities, standards and issues.',
+        xGoal: 'Create a team culture where expectations are clear, problems are raised early and accountability feels normal.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Monday at 7:30am',
+            habit: 'On the workshop floor or in the office, I run a 15-minute team huddle using a three-point agenda.',
+            dailyActions: [
+              'Each day before 4:00pm, I record one team win, issue, safety concern or standard that may need to be raised in the huddle.',
+              'Each day, I check whether any commitment from the last huddle has been completed, delayed or needs follow-up.'
+            ]
+          },
+          {
+            schedule: 'Every workday before 4:00pm',
+            habit: 'I address one small standard or accountability issue before it becomes a bigger problem.',
+            dailyActions: [
+              'When I notice a standard slip, I write down the specific behaviour, impact and next action before speaking to the person.',
+              'Before leaving work, I record whether the issue was addressed, deferred or needs a follow-up conversation.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'empowering-leadership',
+        num: 7,
+        category: 'business',
+        title: 'Empowering Leadership',
+        iAmStatement: 'I am a clear and empowering leader who develops people instead of fixing every problem myself.',
+        smartGoal: 'Hold one 15-minute leadership check-in with each key team member every fortnight for the next 3 months.',
+        xGoal: 'Build a leadership rhythm where team members solve problems, own outcomes and reduce daily interruptions by 50%.',
+        keystoneHabits: [
+          {
+            schedule: 'Every 2nd Tuesday, 8:30–10:30am',
+            habit: 'I hold 15-minute check-ins with key team members.',
+            dailyActions: [
+              'Each day, I note one example of performance, initiative, confusion or behaviour to discuss in the next check-in.',
+              'Each day before leaving work, I update the check-in notes with any support, feedback or coaching point needed.'
+            ]
+          },
+          {
+            schedule: 'Every weekday at 3:45pm',
+            habit: 'I identify one coaching or feedback opportunity from the day.',
+            dailyActions: [
+              'Each day, I give one specific piece of feedback, recognition or guidance before the day ends.',
+              'Each day, I ask one team member what lesson they took from a problem, decision or client interaction.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'sales-pipeline',
+        num: 8,
+        category: 'business',
+        title: 'Sales Pipeline',
+        iAmStatement: 'I am a consistent salesperson who follows up, creates opportunities and keeps the pipeline moving.',
+        smartGoal: 'Complete three lead or client follow-ups every weekday for the next 8 weeks.',
+        xGoal: 'Add $300,000 in new revenue this year through consistent follow-up and proactive sales activity.',
+        keystoneHabits: [
+          {
+            schedule: 'Every weekday at 9:30am',
+            habit: 'After reviewing my calendar, I contact three warm leads or existing clients before opening non-urgent email.',
+            dailyActions: [
+              'Each afternoon before 4:30pm, I update my Top Leads list with tomorrow\'s three follow-ups.',
+              'After every sales conversation, I record the next action, due date and notes in the CRM before moving to the next task.'
+            ]
+          },
+          {
+            schedule: 'Every Monday at 8:30am',
+            habit: 'I review the pipeline and identify the top 10 opportunities for the week.',
+            dailyActions: [
+              'Each day, I update any lead movement in the CRM as hot, warm, nurture or closed.',
+              'Each afternoon, I add any new enquiry, referral or opportunity to the pipeline before leaving work.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'marketing-and-demand-generation',
+        num: 9,
+        category: 'business',
+        title: 'Marketing and Demand Generation',
+        iAmStatement: 'I am a marketing-focused business owner who attracts ideal clients instead of waiting for referrals or luck.',
+        smartGoal: 'Publish one useful piece of content every week for the next 12 weeks.',
+        xGoal: 'Generate 100 qualified inbound leads per quarter from owned marketing channels by Q4.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Friday, 9:00–10:30am',
+            habit: 'At my desk, I create one useful marketing piece before opening email.',
+            dailyActions: [
+              'Each day before 4:00pm, I capture one client question, objection, job story or lesson in my content ideas document.',
+              'Each day, I save one photo, short video, quote, result or example that could support future marketing.'
+            ]
+          },
+          {
+            schedule: 'Every Wednesday at 10:00am',
+            habit: 'I send one value-added message to a client, lead or referral partner.',
+            dailyActions: [
+              'Each day, I add one person to my nurture list if they ask a question, show interest or could benefit from follow-up.',
+              'Each afternoon, I write one sentence about what that person may need help with so the Wednesday message is relevant.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'ideal-clients',
+        num: 10,
+        category: 'business',
+        title: 'Ideal Clients',
+        iAmStatement: 'I am a business owner who chooses ideal clients and says no to work that drains margin, energy or team morale.',
+        smartGoal: 'Create and use an ideal-client checklist for every new opportunity over the next 60 days.',
+        xGoal: 'Build a client base where 80% of revenue comes from ideal-fit clients who value our process and pay properly.',
+        keystoneHabits: [
+          {
+            schedule: 'Before quoting any new opportunity',
+            habit: 'I score the lead against the ideal-client checklist.',
+            dailyActions: [
+              'Each time a new enquiry comes in, I record where it came from, what they need and any red or green flags.',
+              'Each afternoon, I update the lead notes with fit, margin potential, behaviour, urgency and payment risk.'
+            ]
+          },
+          {
+            schedule: 'Every Friday at 2:30pm',
+            habit: 'I review one current client or job that is draining the business.',
+            dailyActions: [
+              'Each day, I note any client behaviour, scope issue, payment issue or team frustration that may indicate poor fit.',
+              'Before Friday\'s review, I choose one client or job that needs a reset, reprice, process improvement or exit plan.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'focused-operator',
+        num: 11,
+        category: 'business',
+        title: 'Focused Operator',
+        iAmStatement: 'I am a focused operator who protects time for the highest-value work and stops letting urgent noise control the day.',
+        smartGoal: 'Block and protect three 90-minute deep-work sessions per week for the next 8 weeks.',
+        xGoal: 'Free up one full day per week for strategy, leadership and growth work within 6 months.',
+        keystoneHabits: [
+          {
+            schedule: 'Mon, Wed & Fri — 8:00–9:30am',
+            habit: 'I complete one deep-work session before opening email.',
+            dailyActions: [
+              'Each afternoon before leaving work, I choose tomorrow\'s highest-value task and write it at the top of my planner.',
+              'Each morning before 8:00am, I clear the desk, close email and put my phone on Do Not Disturb.'
+            ]
+          },
+          {
+            schedule: 'Every weekday at 7:45am',
+            habit: 'I filter my first tasks using urgent, important or noisy.',
+            dailyActions: [
+              'Each morning, I write the top three priorities before checking messages.',
+              'Each day, I move one low-value interruption into an admin block instead of handling it immediately.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'disciplined-follow-through',
+        num: 12,
+        category: 'business',
+        title: 'Disciplined Follow-Through',
+        iAmStatement: 'I am a disciplined business owner who follows through on the boring but important actions that create real results.',
+        smartGoal: 'Complete my top 3 non-negotiables at least five days per week for the next 6 weeks.',
+        xGoal: 'Become the kind of owner who follows through consistently enough that growth feels predictable, not accidental.',
+        keystoneHabits: [
+          {
+            schedule: 'Every weekday at 7:30am',
+            habit: 'Before opening email, I write my top 3 non-negotiables for the day.',
+            dailyActions: [
+              'Each afternoon before leaving work, I choose tomorrow\'s first non-negotiable so I do not start the day guessing.',
+              'Each morning, I schedule the top 3 into the calendar before opening email.'
+            ]
+          },
+          {
+            schedule: 'Every weekday at 4:45pm',
+            habit: 'I complete a five-minute non-negotiables review.',
+            dailyActions: [
+              'Each day, I tick off what was completed and circle what was missed.',
+              'Each day before leaving work, I reschedule any missed non-negotiable or choose the minimum version.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'calm-under-pressure',
+        num: 13,
+        category: 'personal',
+        title: 'Calm Under Pressure',
+        iAmStatement: 'I am a calm and decisive leader who handles pressure without passing it on to my team.',
+        smartGoal: 'Use a pause-and-plan response before reacting to stressful issues for the next 30 days.',
+        xGoal: 'Become known by my team as a calm, steady leader who brings clarity during pressure.',
+        keystoneHabits: [
+          {
+            schedule: 'Whenever a stressful issue appears',
+            habit: 'I pause for two minutes before responding or giving instructions.',
+            dailyActions: [
+              'Each morning, I write one sentence in my planner: "Pause before responding."',
+              'Each time pressure hits, I write the issue in one sentence before speaking or sending a message.'
+            ]
+          },
+          {
+            schedule: 'Every weekday at 4:30pm',
+            habit: 'I review one pressure moment from the day.',
+            dailyActions: [
+              'Each day, I note one moment where I stayed calm or reacted poorly.',
+              'Each afternoon, I write one better response I will practise if the same situation happens again.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'resilient-owner',
+        num: 14,
+        category: 'personal',
+        title: 'Resilient Owner',
+        iAmStatement: 'I am a resilient owner who keeps promises to myself, especially when the week gets messy.',
+        smartGoal: 'Complete my minimum version of each Keystone Habit for the next 30 days, even on difficult days.',
+        xGoal: 'Build unshakeable self-trust by becoming the kind of owner who follows through regardless of pressure, mood or chaos.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Sunday at 5:00pm',
+            habit: 'I define the minimum version of each Keystone Habit for the week ahead.',
+            dailyActions: [
+              'Each day, I check my tracker and identify which Keystone Habit is most at risk of being missed.',
+              'Each day before 3:00pm, I choose the minimum version if the full version is unlikely to happen.'
+            ]
+          },
+          {
+            schedule: 'Every weekday at 5:00pm',
+            habit: 'I complete or record the minimum version instead of skipping entirely.',
+            dailyActions: [
+              'Each day, I tick the full habit or minimum version on my tracker.',
+              'If I miss it, I write the next reset action before ending the day.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'health-and-energy',
+        num: 15,
+        category: 'personal',
+        title: 'Health and Energy',
+        iAmStatement: 'I am a healthy, high-energy person who protects my body, mind and sleep so I can lead well and live well.',
+        smartGoal: 'Exercise four times per week and be in bed by 9:30pm at least five nights per week for the next 8 weeks.',
+        xGoal: 'Drop 8kg, improve fitness, and feel the strongest and clearest I have felt in five years by the end of the year.',
+        keystoneHabits: [
+          {
+            schedule: 'Mon, Tue, Thu & Sat at 6:00am',
+            habit: 'I complete a 30-minute exercise session before checking my phone.',
+            dailyActions: [
+              'Each night before 8:30pm, I lay out shoes, clothes, headphones and water for the next morning.',
+              'Each day before lunch, I choose the healthiest realistic food option so exercise is supported by better energy.'
+            ]
+          },
+          {
+            schedule: 'Every night at 8:45pm',
+            habit: 'I begin a wind-down routine so I am in bed by 9:30pm.',
+            dailyActions: [
+              'Each evening at 8:45pm, I put my phone on charge outside the bedroom.',
+              'Each afternoon, I stop caffeine or high-sugar snacks after the time that usually affects my sleep.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'work-life-boundaries',
+        num: 16,
+        category: 'personal',
+        title: 'Work-Life Boundaries',
+        iAmStatement: 'I am the kind of person who finishes work on time and protects space for family, rest and life outside the business.',
+        smartGoal: 'Leave work by 5:30pm Monday to Thursday for the next 6 weeks.',
+        xGoal: 'Build a weekly rhythm where I work no more than 45 hours per week while maintaining or improving business performance.',
+        keystoneHabits: [
+          {
+            schedule: 'Mon–Thu at 5:00pm',
+            habit: 'I complete a 15-minute shutdown ritual and leave work by 5:30pm.',
+            dailyActions: [
+              'Each morning, I identify what must be finished before 5:00pm so I do not create late-day chaos.',
+              'Each afternoon before 4:30pm, I move any unfinished non-urgent task into tomorrow\'s plan instead of doing it after hours.'
+            ]
+          },
+          {
+            schedule: 'Every Friday at 2:00pm',
+            habit: 'I review next week\'s calendar and protect family, rest and recovery time.',
+            dailyActions: [
+              'Each day, I note any meeting, task or client demand that pushed into family time.',
+              'Each afternoon, I avoid booking non-urgent work after 4:00pm unless it is genuinely necessary.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'present-parent',
+        num: 17,
+        category: 'personal',
+        title: 'Present Parent',
+        iAmStatement: 'I am a present parent who gives my family my full attention, not just my leftover energy.',
+        smartGoal: 'Finish work by 5:30pm at least four days per week for the next 8 weeks.',
+        xGoal: 'Take every school holiday this year with at least three full unplugged days where the business does not need me.',
+        keystoneHabits: [
+          {
+            schedule: 'Every weekday at 6:00pm',
+            habit: 'I put my phone and laptop away before dinner and stay off work devices until the kids are in bed.',
+            dailyActions: [
+              'Each afternoon before leaving work, I send or schedule any final message so I am not checking my phone during dinner.',
+              'Each day before dinner, I put my phone on charge outside the dining and lounge areas.'
+            ]
+          },
+          {
+            schedule: 'Every Sunday at 4:00pm',
+            habit: 'I hold a 15-minute family planning check-in.',
+            dailyActions: [
+              'Each day, I note any school event, family request or commitment that needs to go into Sunday planning.',
+              'Each evening, I ask one specific question about my child\'s day and listen without multitasking.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'connected-partner',
+        num: 18,
+        category: 'personal',
+        title: 'Connected Partner',
+        iAmStatement: 'I am a calm and connected partner who makes time for my relationship and does not let business consume everything.',
+        smartGoal: 'Schedule one uninterrupted date or connection block with my partner every week for the next 12 weeks.',
+        xGoal: 'Take a 4-day trip with my partner this year with no work calls, no laptop, and the business operating smoothly without me.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Sunday at 7:30pm',
+            habit: 'I schedule one connection block with my partner for the week ahead.',
+            dailyActions: [
+              'Each day, I note one thing my partner mentioned, needed or cared about so I can be more present.',
+              'Each afternoon before leaving work, I clear or park any business issue that would otherwise follow me into home time.'
+            ]
+          },
+          {
+            schedule: 'Two nights per week at 7:00pm',
+            habit: 'I put my phone away and spend at least 30 minutes fully present with my partner.',
+            dailyActions: [
+              'Each day before dinner, I put my phone away for at least the first 30 minutes of home time.',
+              'Each evening, I ask, "What has been on your mind this week?" and listen without fixing or checking my phone.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'intentional-morning',
+        num: 19,
+        category: 'personal',
+        title: 'Intentional Morning',
+        iAmStatement: 'I am someone who starts the day with intention, energy and control — not chaos, rushing or reaction.',
+        smartGoal: 'Complete a 20-minute morning routine at least five days per week for the next 30 days.',
+        xGoal: 'Build a morning routine that becomes automatic and sets up every day with clarity, energy and discipline.',
+        keystoneHabits: [
+          {
+            schedule: 'Every weekday at 6:30am',
+            habit: 'Before checking my phone, I complete a 10-minute planning routine.',
+            dailyActions: [
+              'Each night before bed, I leave my planner open where I will see it in the morning.',
+              'Each morning, I write my top three priorities before opening email or messages.'
+            ]
+          },
+          {
+            schedule: 'Every weekday — after planning',
+            habit: 'I complete 10 minutes of movement and drink water before coffee.',
+            dailyActions: [
+              'Each night, I place my water bottle and walking shoes where I will see them in the morning.',
+              'Each morning before coffee, I drink 500ml of water and do 10 minutes of walking, stretching or bodyweight movement.'
+            ]
+          }
+        ]
+      },
+      {
+        id: 'personal-growth-and-reflection',
+        num: 20,
+        category: 'personal',
+        title: 'Personal Growth and Reflection',
+        iAmStatement: 'I am a self-aware business owner who reflects, learns and improves instead of repeating the same patterns.',
+        smartGoal: 'Complete a 10-minute weekly reflection every Friday for the next 12 weeks.',
+        xGoal: 'Build a personal operating rhythm where I make better decisions, catch old patterns faster and grow as both a leader and person.',
+        keystoneHabits: [
+          {
+            schedule: 'Every Friday at 3:00pm',
+            habit: 'I complete a 10-minute weekly reflection before planning the next week.',
+            dailyActions: [
+              'Each day before leaving work, I write one win, one lesson or one pattern I noticed.',
+              'Each day, I record one decision, reaction or behaviour I want to review on Friday.'
+            ]
+          },
+          {
+            schedule: 'Every weekday at 5:15pm',
+            habit: 'I write a two-sentence end-of-day learning note.',
+            dailyActions: [
+              'Each day, I write one sentence on what worked today.',
+              'Each day, I write one sentence on what I need to improve tomorrow.'
+            ]
+          }
+        ]
+      }
+    ];
+
+    // ─────────────────────────────────────────────────────────────
+    // Utility
+    // ─────────────────────────────────────────────────────────────
+    function escapeHTML(str) {
+      return str
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function showToast(msg, duration = 4000) {
+      const t = document.getElementById('toast');
+      t.textContent = msg;
+      t.classList.add('show');
+      setTimeout(() => t.classList.remove('show'), duration);
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Sidebar
+    // ─────────────────────────────────────────────────────────────
+    function renderSidebar() {
+      const list = document.getElementById('sidebar-list');
+      const categories = [
+        { key: 'business', label: 'Business' },
+        { key: 'personal', label: 'Personal' }
+      ];
+      let html = '';
+      categories.forEach(cat => {
+        html += `<div class="sidebar-category">${cat.label}</div>`;
+        EXAMPLES.filter(e => e.category === cat.key).forEach(ex => {
+          html += `<button class="sidebar-item" id="nav-${ex.id}" onclick="selectExample('${ex.id}')">
+            <span class="sidebar-num">${ex.num}.</span><span class="sidebar-title">${escapeHTML(ex.title)}</span>
+          </button>`;
+        });
+      });
+      list.innerHTML = html;
+    }
+
+    function selectExample(id) {
+      const ex = EXAMPLES.find(e => e.id === id);
+      if (!ex) return;
+
+      document.querySelectorAll('.sidebar-item').forEach(btn => btn.classList.remove('active'));
+      const activeBtn = document.getElementById('nav-' + id);
+      if (activeBtn) activeBtn.classList.add('active');
+
+      const habitsHTML = ex.keystoneHabits.map((kh, i) => `
+        <div class="habit-block">
+          <div class="habit-num-label">Keystone Habit ${i + 1}</div>
+          <span class="habit-schedule-badge">${escapeHTML(kh.schedule)}</span>
+          <p class="habit-text">${escapeHTML(kh.habit)}</p>
+          <div class="daily-actions-label">Daily Actions</div>
+          ${kh.dailyActions.map(a => `
+            <div class="daily-action">
+              <div class="action-dot"></div>
+              <span class="action-text">${escapeHTML(a)}</span>
+            </div>`).join('')}
+        </div>`).join('');
+
+      const catLabel = ex.category === 'business' ? 'Business' : 'Personal';
+      document.getElementById('content-area').innerHTML = `
+        <div class="example-header">
+          <div class="example-meta">Example ${ex.num} of 20 <span>${catLabel}</span></div>
+          <h1 class="example-title">${escapeHTML(ex.title)}</h1>
+        </div>
+        <div class="layer-card iam-card">
+          <div class="layer-label">Identity &mdash; I Am Statement</div>
+          <div class="iam-quote">&ldquo;${escapeHTML(ex.iAmStatement)}&rdquo;</div>
+          <div class="iam-deco">&rdquo;</div>
+        </div>
+        <div class="goals-row">
+          <div class="goal-card smart-card">
+            <div class="layer-label">Smart Goal &mdash; 30&ndash;90 Days</div>
+            <p class="goal-text">${escapeHTML(ex.smartGoal)}</p>
+          </div>
+          <div class="goal-card xgoal-card">
+            <div class="layer-label">X-Goal &mdash; 12 Months</div>
+            <p class="goal-text">${escapeHTML(ex.xGoal)}</p>
+          </div>
+        </div>
+        <div class="habits-card">
+          <div class="layer-label">Keystone Habits &amp; Daily Actions</div>
+          <div class="habits-grid">${habitsHTML}</div>
+        </div>`;
+
+      closeSidebar();
+      document.querySelector('.main-content').scrollTop = 0;
+      window.scrollTo(0, 0);
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Sidebar mobile toggle
+    // ─────────────────────────────────────────────────────────────
+    function toggleSidebar() {
+      document.getElementById('sidebar').classList.toggle('open');
+      document.getElementById('overlay').classList.toggle('show');
+    }
+    function closeSidebar() {
+      document.getElementById('sidebar').classList.remove('open');
+      document.getElementById('overlay').classList.remove('show');
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Email PDF Modal
+    // ─────────────────────────────────────────────────────────────
+    function openEmailModal() {
+      const list = document.getElementById('modal-examples-list');
+      let html = '';
+      ['business', 'personal'].forEach(cat => {
+        html += `<div class="modal-category-lbl">${cat === 'business' ? 'Business' : 'Personal'}</div>`;
+        EXAMPLES.filter(e => e.category === cat).forEach(ex => {
+          html += `<label class="modal-check-item">
+            <input type="checkbox" class="ex-checkbox" value="${ex.id}" checked onchange="updateCount()">
+            <span class="modal-check-num">${ex.num}.</span>
+            <span class="modal-check-title">${escapeHTML(ex.title)}</span>
+          </label>`;
+        });
+      });
+      list.innerHTML = html;
+      updateCount();
+      document.getElementById('modal-overlay').classList.add('show');
+      document.body.style.overflow = 'hidden';
+      document.getElementById('pdf-name').focus();
+    }
+
+    function closeEmailModal() {
+      document.getElementById('modal-overlay').classList.remove('show');
+      document.body.style.overflow = '';
+    }
+
+    function updateCount() {
+      const total = document.querySelectorAll('.ex-checkbox').length;
+      const checked = document.querySelectorAll('.ex-checkbox:checked').length;
+      document.getElementById('modal-count').textContent = `${checked} of ${total} selected`;
+    }
+
+    function setAllCheckboxes(checked) {
+      document.querySelectorAll('.ex-checkbox').forEach(cb => cb.checked = checked);
+      updateCount();
+    }
+
+    // Close modal on overlay click (not on modal content)
+    document.getElementById('modal-overlay').addEventListener('click', function(e) {
+      if (e.target === this) closeEmailModal();
+    });
+    document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEmailModal(); });
+
+    // ─────────────────────────────────────────────────────────────
+    // PDF generation (jsPDF)
+    // ─────────────────────────────────────────────────────────────
+    function generatePDF(fullName, selectedExamples) {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF('p', 'mm', 'a4');
+      const PW = 210, PH = 297, ML = 16, MR = 16;
+      const MW = PW - ML - MR;
+
+      const NAVY  = [17, 55, 127];
+      const GOLD  = [255, 192, 0];
+      const LBBLUE = [229, 246, 255];
+      const LGOLD  = [255, 248, 225];
+      const WHITE  = [255, 255, 255];
+      const DGOLD  = [179, 134, 0];
+      const SLATE  = [51, 65, 85];
+      const DARK   = [30, 41, 59];
+      const GRAY   = [166, 166, 166];
+      const MUTED  = [100, 140, 190];
+      const LTGRAY = [248, 250, 252];
+
+      function drawCard(x, y, w, h, bg, border) {
+        doc.setFillColor(...bg);
+        doc.rect(x, y, w, h, 'F');
+        if (border) {
+          doc.setFillColor(...border);
+          doc.rect(x, y, 2.5, h, 'F');
+        }
+      }
+
+      function labelText(text, x, y, color) {
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(7.5);
+        doc.setTextColor(...color);
+        doc.text(text, x, y);
+      }
+
+      // ── Cover page ──────────────────────────────────────────────
+      doc.setFillColor(...NAVY);
+      doc.rect(0, 0, PW, PH, 'F');
+
+      doc.setDrawColor(...GOLD);
+      doc.setLineWidth(2);
+      doc.line(ML, 72, ML + 72, 72);
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(32);
+      doc.setTextColor(...WHITE);
+      doc.text('KickStart', ML, 87);
+      doc.setTextColor(...GOLD);
+      doc.text('Success Stack', ML, 100);
+
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(16);
+      doc.setTextColor(...WHITE);
+      doc.text(fullName, ML, 116);
+
+      doc.setFontSize(11);
+      doc.setTextColor(166, 188, 220);
+      const today = new Date().toLocaleDateString('en-AU', {day:'numeric', month:'long', year:'numeric'});
+      doc.text(today, ML, 125);
+      doc.text('Trinity Advisory — Kickstart Program', ML, 133);
+
+      doc.setFontSize(10);
+      doc.text(`${selectedExamples.length} example${selectedExamples.length !== 1 ? 's' : ''} selected`, ML, 148);
+
+      let ey = 157;
+      selectedExamples.forEach((ex, i) => {
+        const col = i % 2;
+        const ex_x = ML + col * 90;
+        const ex_y = ey + Math.floor(i / 2) * 7;
+        doc.setFillColor(...GOLD);
+        doc.circle(ex_x + 1.5, ex_y - 1.5, 1.2, 'F');
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(200, 220, 240);
+        doc.text(`${ex.num}. ${ex.title}`, ex_x + 5, ex_y);
+      });
+
+      // ── Example pages ──────────────────────────────────────────
+      selectedExamples.forEach((ex, exIdx) => {
+        doc.addPage();
+
+        // Header bar
+        doc.setFillColor(...NAVY);
+        doc.rect(0, 0, PW, 28, 'F');
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(15);
+        doc.setTextColor(...WHITE);
+        doc.text(`${ex.num}. ${ex.title}`, ML, 14);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(9);
+        doc.setTextColor(166, 188, 220);
+        doc.text(`Example ${ex.num} of 20  ·  ${ex.category === 'business' ? 'Business' : 'Personal'}`, ML, 22);
+
+        let y = 35;
+
+        // I Am Statement
+        doc.setFontSize(10.5);
+        const iamLines = doc.splitTextToSize(`“${ex.iAmStatement}”`, MW - 10);
+        const iamH = iamLines.length * 5.6 + 18;
+        drawCard(ML, y, MW, iamH, LBBLUE, NAVY);
+        labelText('IDENTITY — I AM STATEMENT', ML + 5, y + 7, [...NAVY]);
+        doc.setFont('helvetica', 'bolditalic');
+        doc.setFontSize(10.5);
+        doc.setTextColor(...NAVY);
+        doc.text(iamLines, ML + 5, y + 14);
+        y += iamH + 5;
+
+        // SMART Goal
+        doc.setFontSize(10);
+        const sgLines = doc.splitTextToSize(ex.smartGoal, MW - 10);
+        const sgH = sgLines.length * 5.3 + 18;
+        drawCard(ML, y, MW, sgH, WHITE, NAVY);
+        doc.setDrawColor(230, 236, 245);
+        doc.setLineWidth(0.3);
+        doc.rect(ML, y, MW, sgH, 'S');
+        labelText('SMART GOAL — 30–90 DAYS', ML + 5, y + 7, [...NAVY]);
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(10);
+        doc.setTextColor(...SLATE);
+        doc.text(sgLines, ML + 5, y + 14);
+        y += sgH + 5;
+
+        // X-Goal
+        const xgLines = doc.splitTextToSize(ex.xGoal, MW - 10);
+        const xgH = xgLines.length * 5.3 + 18;
+        drawCard(ML, y, MW, xgH, LGOLD, GOLD);
+        labelText('X-GOAL — 12 MONTHS', ML + 5, y + 7, [...DGOLD]);
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        doc.setTextColor(...DARK);
+        doc.text(xgLines, ML + 5, y + 14);
+        y += xgH + 6;
+
+        // Habits section label
+        labelText('KEYSTONE HABITS & DAILY ACTIONS', ML, y + 5, [...MUTED]);
+        y += 11;
+
+        // Each habit
+        // LH constants and text widths must be identical in height-calc AND drawing
+        const LH10 = 5.0, LH9 = 4.5;
+        const HABIT_W = MW - 14, ACTION_W = MW - 14;
+
+        ex.keystoneHabits.forEach((kh, ki) => {
+          if (y > 258) {
+            doc.addPage();
+            doc.setFillColor(...NAVY);
+            doc.rect(0, 0, PW, 14, 'F');
+            doc.setFont('helvetica', 'bold');
+            doc.setFontSize(9);
+            doc.setTextColor(...WHITE);
+            doc.text(`${ex.num}. ${ex.title} (continued)`, ML, 10);
+            y = 22;
+          }
+
+          // Height calculation — same widths & font sizes as drawing below
+          doc.setFontSize(10);
+          const htLns = doc.splitTextToSize(kh.habit, HABIT_W);
+          doc.setFontSize(9);
+          const actLns = kh.dailyActions.map(a => doc.splitTextToSize(a, ACTION_W));
+
+          let h = 6;                          // top padding
+          h += 8 + 5;                         // badge + gap
+          h += 6;                             // habit label
+          h += htLns.length * LH10 + 4;      // habit text + gap
+          h += 6;                             // daily actions label
+          actLns.forEach(lns => { h += lns.length * LH9 + 3; });
+          h += 5;                             // bottom padding
+
+          // Draw card
+          doc.setFillColor(...LTGRAY);
+          doc.setDrawColor(225, 232, 242);
+          doc.setLineWidth(0.35);
+          doc.roundedRect(ML, y, MW, h, 3, 3, 'FD');
+
+          let hy = y + 6;
+
+          // Badge — full width so text never wraps inside it
+          const bw = MW - 10;
+          doc.setFillColor(...GOLD);
+          doc.roundedRect(ML + 5, hy, bw, 8, 2, 2, 'F');
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(8.5);
+          doc.setTextColor(...DARK);
+          doc.text(kh.schedule, ML + 10, hy + 5.5);
+          hy += 8 + 5;
+
+          // Habit label
+          labelText(`KEYSTONE HABIT ${ki + 1}`, ML + 5, hy, [...GRAY]);
+          hy += 6;
+
+          // Habit text
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(10);
+          doc.setTextColor(...DARK);
+          doc.text(htLns, ML + 5, hy);
+          hy += htLns.length * LH10 + 4;
+
+          // Daily actions label
+          labelText('DAILY ACTIONS', ML + 5, hy, [...GRAY]);
+          hy += 6;
+
+          // Actions
+          actLns.forEach(lines => {
+            doc.setFillColor(...NAVY);
+            doc.circle(ML + 5.5, hy - 1.2, 1.0, 'F');
+            doc.setFont('helvetica', 'normal');
+            doc.setFontSize(9);
+            doc.setTextColor(71, 85, 105);
+            doc.text(lines, ML + 9, hy);
+            hy += lines.length * LH9 + 3;
+          });
+
+          y += h + 4;
+        });
+
+        // Page footer
+        doc.setFont('helvetica', 'normal');
+        doc.setFontSize(8);
+        doc.setTextColor(...GRAY);
+        doc.text('Trinity Advisory — KickStart Program', ML, 291);
+        doc.text(`${exIdx + 1} / ${selectedExamples.length}`, PW - MR - 16, 291);
+      });
+
+      return doc;
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Power Automate (optional)
+    // ─────────────────────────────────────────────────────────────
+    async function sendViaPowerAutomate(fullName, email, selectedExamples) {
+      if (!POWER_AUTOMATE_URL) return false;
+      try {
+        const res = await fetch(POWER_AUTOMATE_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            name: fullName,
+            email: email,
+            selected_count: selectedExamples.length,
+            examples_list: selectedExamples.map(e => `${e.num}. ${e.title}`).join('\n')
+          })
+        });
+        return res.ok || res.status === 202;
+      } catch (err) {
+        console.warn('Power Automate error:', err);
+        return false;
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Form submit
+    // ─────────────────────────────────────────────────────────────
+    async function submitPDFForm() {
+      const name  = document.getElementById('pdf-name').value.trim();
+      const email = document.getElementById('pdf-email').value.trim();
+
+      if (!name)  { document.getElementById('pdf-name').focus();  return; }
+      if (!email || !email.includes('@')) { document.getElementById('pdf-email').focus(); return; }
+
+      const checkedIds = Array.from(document.querySelectorAll('.ex-checkbox:checked')).map(cb => cb.value);
+      if (checkedIds.length === 0) { showToast('Please select at least one example.'); return; }
+
+      const selected = EXAMPLES.filter(ex => checkedIds.includes(ex.id));
+      const btn = document.getElementById('btn-submit');
+      btn.textContent = 'Generating PDF…';
+      btn.disabled = true;
+
+      try {
+        if (!window.jspdf) throw new Error('PDF library not loaded');
+        const doc = generatePDF(name, selected);
+        const filename = name.replace(/\s+/g, '_') + '_Success_Stack.pdf';
+        doc.save(filename);
+
+        btn.textContent = POWER_AUTOMATE_URL ? 'Sending email…' : 'Done';
+        const emailSent = await sendViaPowerAutomate(name, email, selected);
+
+        closeEmailModal();
+        const msg = emailSent
+          ? `PDF downloaded and confirmation sent to ${email}.`
+          : `Your PDF has been downloaded — check your Downloads folder.`;
+        showToast(msg, 5000);
+      } catch (err) {
+        console.error(err);
+        showToast('Something went wrong. Please try again.');
+      } finally {
+        btn.textContent = 'Email me my Success Stack';
+        btn.disabled = false;
+      }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    // Init
+    // ─────────────────────────────────────────────────────────────
+    renderSidebar();
+    selectExample(EXAMPLES[0].id);
+  </script>
+</body>
+</html>
