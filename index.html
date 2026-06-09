@@ -160,6 +160,13 @@
       text-align: center;
       flex-shrink: 0;
     }
+    .sidebar-version {
+      font-size: 10px;
+      color: rgba(255,255,255,0.18);
+      text-align: center;
+      padding: 0 20px 12px;
+      flex-shrink: 0;
+    }
 
     /* ── Main content ── */
     .main-content { flex: 1; overflow-y: auto; background: #f1f5f9; }
@@ -371,13 +378,14 @@
       color: #1a1a1a;
       border: none;
       border-radius: 8px;
-      padding: 8px 14px;
+      padding: 9px 16px;
       font-size: 13px;
-      font-weight: 700;
+      font-weight: 800;
       font-family: inherit;
       cursor: pointer;
       flex-shrink: 0;
       white-space: nowrap;
+      display: block;
     }
 
     /* ── Sidebar overlay ── */
@@ -660,6 +668,7 @@
       <div class="sidebar-list" id="sidebar-list"></div>
       <button class="pdf-btn" onclick="openEmailModal()">⬇ Download a PDF</button>
       <div class="sidebar-footer">mark.nixey@trinityadvisory.com.au</div>
+      <div class="sidebar-version">v1.0</div>
     </nav>
 
     <!-- Main content -->
@@ -1545,40 +1554,38 @@
 
         let y = 35;
 
-        // I Am Statement
+        // I Am Statement — split using bolditalic so character widths match draw phase
+        doc.setFont('helvetica', 'bolditalic');
         doc.setFontSize(10.5);
-        const iamLines = doc.splitTextToSize(`“${ex.iAmStatement}”`, MW - 10);
+        const iamLines = doc.splitTextToSize(`”${ex.iAmStatement}”`, MW - 12);
         const iamH = iamLines.length * 5.6 + 18;
         drawCard(ML, y, MW, iamH, LBBLUE, NAVY);
         labelText('IDENTITY – I AM STATEMENT', ML + 5, y + 7, [...NAVY]);
-        doc.setFont('helvetica', 'bolditalic');
-        doc.setFontSize(10.5);
         doc.setTextColor(...NAVY);
         doc.text(iamLines, ML + 5, y + 14);
         y += iamH + 5;
 
-        // SMART Goal
+        // SMART Goal — split using normal so character widths match draw phase
+        doc.setFont('helvetica', 'normal');
         doc.setFontSize(10);
-        const sgLines = doc.splitTextToSize(ex.smartGoal, MW - 10);
+        const sgLines = doc.splitTextToSize(ex.smartGoal, MW - 12);
         const sgH = sgLines.length * 5.3 + 18;
         drawCard(ML, y, MW, sgH, WHITE, NAVY);
         doc.setDrawColor(230, 236, 245);
         doc.setLineWidth(0.3);
         doc.rect(ML, y, MW, sgH, 'S');
         labelText('SMART GOAL – 30–90 DAYS', ML + 5, y + 7, [...NAVY]);
-        doc.setFont('helvetica', 'normal');
-        doc.setFontSize(10);
         doc.setTextColor(...SLATE);
         doc.text(sgLines, ML + 5, y + 14);
         y += sgH + 5;
 
-        // X-Goal
-        const xgLines = doc.splitTextToSize(ex.xGoal, MW - 10);
+        // X-Goal — split using bold so character widths match draw phase
+        doc.setFont('helvetica', 'bold');
+        doc.setFontSize(10);
+        const xgLines = doc.splitTextToSize(ex.xGoal, MW - 12);
         const xgH = xgLines.length * 5.3 + 18;
         drawCard(ML, y, MW, xgH, LGOLD, GOLD);
         labelText('X-GOAL – 12 MONTHS', ML + 5, y + 7, [...DGOLD]);
-        doc.setFont('helvetica', 'bold');
-        doc.setFontSize(10);
         doc.setTextColor(...DARK);
         doc.text(xgLines, ML + 5, y + 14);
         y += xgH + 6;
