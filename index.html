@@ -366,6 +366,19 @@
       flex-shrink: 0;
     }
     .hamburger span { display: block; width: 22px; height: 2px; background: white; border-radius: 1px; }
+    .mobile-pdf-btn {
+      background: #FFC000;
+      color: #1a1a1a;
+      border: none;
+      border-radius: 8px;
+      padding: 8px 14px;
+      font-size: 13px;
+      font-weight: 700;
+      font-family: inherit;
+      cursor: pointer;
+      flex-shrink: 0;
+      white-space: nowrap;
+    }
 
     /* ── Sidebar overlay ── */
     .overlay {
@@ -629,6 +642,7 @@
       <span></span><span></span><span></span>
     </button>
     <span class="mobile-title">KickStart Resources</span>
+    <button class="mobile-pdf-btn" onclick="openEmailModal()">⬇ PDF</button>
   </div>
 
   <!-- Sidebar drawer overlay -->
