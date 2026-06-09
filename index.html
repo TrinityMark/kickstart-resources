@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>KickStart Resources — Success Stack Examples</title>
+  <title>KickStart Resources – Success Stack Examples</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <style>
@@ -449,8 +449,22 @@
       color: #1e293b;
       outline: none;
       transition: border-color 0.15s;
+      background: white;
+      appearance: none;
     }
     .modal-input:focus { border-color: #11377F; }
+    .modal-select-wrap { position: relative; }
+    .modal-select-wrap::after {
+      content: '▾';
+      position: absolute;
+      right: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #64748b;
+      pointer-events: none;
+      font-size: 13px;
+    }
+    .modal-hint { font-size: 12px; color: #94a3b8; margin-top: 5px; }
 
     .modal-divider {
       border: none;
@@ -570,7 +584,7 @@
     .toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
     /* ── Responsive ── */
-    /* On desktop, sidebar button is redundant — topbar handles it */
+    /* On desktop, sidebar button is redundant – topbar handles it */
     @media (min-width: 768px) {
       .pdf-btn { display: none; }
     }
@@ -591,7 +605,7 @@
       }
       .sidebar.open { left: 0; box-shadow: 4px 0 24px rgba(0,0,0,0.25); }
       .main-content { overflow-y: visible; height: auto; }
-      .content-inner { padding: 24px 16px 48px; }
+      .content-inner { padding: 76px 16px 48px; }
       .content-topbar { display: none; }
       .modal-overlay { padding: 0; align-items: flex-end; }
       .modal { border-radius: 20px 20px 0 0; max-height: 96vh; }
@@ -656,12 +670,32 @@
       </div>
       <div class="modal-body">
         <div class="modal-form-group">
-          <label for="pdf-name">Full Name</label>
+          <label for="pdf-name">Your name <span style="color:#e53e3e">*</span></label>
           <input class="modal-input" type="text" id="pdf-name" placeholder="Your full name" autocomplete="name">
         </div>
         <div class="modal-form-group">
-          <label for="pdf-email">Email Address</label>
+          <label for="pdf-email">Your email <span style="color:#e53e3e">*</span></label>
           <input class="modal-input" type="email" id="pdf-email" placeholder="you@example.com" autocomplete="email">
+          <p class="modal-hint">We'll send you a notification when your PDF is ready.</p>
+        </div>
+        <div class="modal-form-group">
+          <label for="pdf-business">Business name <span style="color:#e53e3e">*</span></label>
+          <input class="modal-input" type="text" id="pdf-business" placeholder="Your business name" autocomplete="organization">
+        </div>
+        <div class="modal-form-group">
+          <label for="pdf-advisor">Advisor name <span style="color:#e53e3e">*</span></label>
+          <div class="modal-select-wrap">
+            <select class="modal-input" id="pdf-advisor">
+              <option value="" disabled selected>Select your advisor...</option>
+              <option value="Andrea Szasz">Andrea Szasz</option>
+              <option value="Conor Sarran">Conor Sarran</option>
+              <option value="Joshua Patten">Joshua Patten</option>
+              <option value="Josh Sherrington">Josh Sherrington</option>
+              <option value="Nick Mulqueen">Nick Mulqueen</option>
+              <option value="Richard Caldecott">Richard Caldecott</option>
+              <option value="Not sure">Not sure</option>
+            </select>
+          </div>
         </div>
         <hr class="modal-divider">
         <div class="modal-examples-header">
@@ -686,23 +720,23 @@
 
   <script>
     // ─────────────────────────────────────────────────────────────
-    // Power Automate Configuration (optional — Microsoft 365 required)
+    // Power Automate Configuration (optional – Microsoft 365 required)
     // 5-minute setup:
     //   1. power.automate.com → Create → Instant flow
     //   2. Trigger: "When an HTTP request is received"  (leave schema blank)
     //   3. Add action: "Send an email (V2)"
     //        To:      triggerBody()?['email']
     //        Subject: "Your KickStart Success Stack"
-    //        Body:    Hi @{triggerBody()?['name']} — your PDF has been downloaded.
+    //        Body:    Hi @{triggerBody()?['name']} – your PDF has been downloaded.
     //                 Selected: @{triggerBody()?['selected_count']} examples.
     //                 @{triggerBody()?['examples_list']}
     //   4. Save, then copy the HTTP POST URL and paste below
-    // Leave blank — PDF still downloads automatically without email.
+    // Leave blank – PDF still downloads automatically without email.
     // ─────────────────────────────────────────────────────────────
     const POWER_AUTOMATE_URL = '';   // e.g. 'https://prod-xx.westus.logic.azure.com/workflows/...'
 
     // ─────────────────────────────────────────────────────────────
-    // Content data — all 20 Success Stack examples
+    // Content data – all 20 Success Stack examples
     // ─────────────────────────────────────────────────────────────
     const EXAMPLES = [
       {
@@ -985,7 +1019,7 @@
         xGoal: 'Free up one full day per week for strategy, leadership and growth work within 6 months.',
         keystoneHabits: [
           {
-            schedule: 'Mon, Wed & Fri — 8:00–9:30am',
+            schedule: 'Mon, Wed & Fri – 8:00–9:30am',
             habit: 'I complete one deep-work session before opening email.',
             dailyActions: [
               'Each afternoon before leaving work, I choose tomorrow\'s highest-value task and write it at the top of my planner.',
@@ -1196,7 +1230,7 @@
         num: 19,
         category: 'personal',
         title: 'Intentional Morning',
-        iAmStatement: 'I am someone who starts the day with intention, energy and control — not chaos, rushing or reaction.',
+        iAmStatement: 'I am someone who starts the day with intention, energy and control – not chaos, rushing or reaction.',
         smartGoal: 'Complete a 20-minute morning routine at least five days per week for the next 30 days.',
         xGoal: 'Build a morning routine that becomes automatic and sets up every day with clarity, energy and discipline.',
         keystoneHabits: [
@@ -1209,7 +1243,7 @@
             ]
           },
           {
-            schedule: 'Every weekday — after planning',
+            schedule: 'Every weekday – after planning',
             habit: 'I complete 10 minutes of movement and drink water before coffee.',
             dailyActions: [
               'Each night, I place my water bottle and walking shoes where I will see them in the morning.',
@@ -1314,17 +1348,17 @@
           <h1 class="example-title">${escapeHTML(ex.title)}</h1>
         </div>
         <div class="layer-card iam-card">
-          <div class="layer-label">Identity &mdash; I Am Statement</div>
+          <div class="layer-label">Identity &ndash; I Am Statement</div>
           <div class="iam-quote">&ldquo;${escapeHTML(ex.iAmStatement)}&rdquo;</div>
           <div class="iam-deco">&rdquo;</div>
         </div>
         <div class="goals-row">
           <div class="goal-card smart-card">
-            <div class="layer-label">Smart Goal &mdash; 30&ndash;90 Days</div>
+            <div class="layer-label">Smart Goal &ndash; 30&ndash;90 Days</div>
             <p class="goal-text">${escapeHTML(ex.smartGoal)}</p>
           </div>
           <div class="goal-card xgoal-card">
-            <div class="layer-label">X-Goal &mdash; 12 Months</div>
+            <div class="layer-label">X-Goal &ndash; 12 Months</div>
             <p class="goal-text">${escapeHTML(ex.xGoal)}</p>
           </div>
         </div>
@@ -1398,7 +1432,7 @@
     // ─────────────────────────────────────────────────────────────
     // PDF generation (jsPDF)
     // ─────────────────────────────────────────────────────────────
-    function generatePDF(fullName, selectedExamples) {
+    function generatePDF(fullName, businessName, advisorName, selectedExamples) {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF('p', 'mm', 'a4');
       const PW = 210, PH = 297, ML = 16, MR = 16;
@@ -1452,16 +1486,21 @@
       doc.setTextColor(...WHITE);
       doc.text(fullName, ML, 116);
 
+      doc.setFontSize(12);
+      doc.setTextColor(166, 188, 220);
+      doc.text(businessName, ML, 124);
+
       doc.setFontSize(11);
       doc.setTextColor(166, 188, 220);
       const today = new Date().toLocaleDateString('en-AU', {day:'numeric', month:'long', year:'numeric'});
-      doc.text(today, ML, 125);
-      doc.text('Trinity Advisory — Kickstart Program', ML, 133);
+      doc.text(today, ML, 133);
+      doc.text('Trinity Advisory – Kickstart Program', ML, 140);
+      doc.text(`Advisor: ${advisorName}`, ML, 147);
 
       doc.setFontSize(10);
-      doc.text(`${selectedExamples.length} example${selectedExamples.length !== 1 ? 's' : ''} selected`, ML, 148);
+      doc.text(`${selectedExamples.length} example${selectedExamples.length !== 1 ? 's' : ''} selected`, ML, 157);
 
-      let ey = 157;
+      let ey = 166;
       selectedExamples.forEach((ex, i) => {
         const col = i % 2;
         const ex_x = ML + col * 90;
@@ -1497,7 +1536,7 @@
         const iamLines = doc.splitTextToSize(`“${ex.iAmStatement}”`, MW - 10);
         const iamH = iamLines.length * 5.6 + 18;
         drawCard(ML, y, MW, iamH, LBBLUE, NAVY);
-        labelText('IDENTITY — I AM STATEMENT', ML + 5, y + 7, [...NAVY]);
+        labelText('IDENTITY – I AM STATEMENT', ML + 5, y + 7, [...NAVY]);
         doc.setFont('helvetica', 'bolditalic');
         doc.setFontSize(10.5);
         doc.setTextColor(...NAVY);
@@ -1512,7 +1551,7 @@
         doc.setDrawColor(230, 236, 245);
         doc.setLineWidth(0.3);
         doc.rect(ML, y, MW, sgH, 'S');
-        labelText('SMART GOAL — 30–90 DAYS', ML + 5, y + 7, [...NAVY]);
+        labelText('SMART GOAL – 30–90 DAYS', ML + 5, y + 7, [...NAVY]);
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(10);
         doc.setTextColor(...SLATE);
@@ -1523,7 +1562,7 @@
         const xgLines = doc.splitTextToSize(ex.xGoal, MW - 10);
         const xgH = xgLines.length * 5.3 + 18;
         drawCard(ML, y, MW, xgH, LGOLD, GOLD);
-        labelText('X-GOAL — 12 MONTHS', ML + 5, y + 7, [...DGOLD]);
+        labelText('X-GOAL – 12 MONTHS', ML + 5, y + 7, [...DGOLD]);
         doc.setFont('helvetica', 'bold');
         doc.setFontSize(10);
         doc.setTextColor(...DARK);
@@ -1551,7 +1590,7 @@
             y = 22;
           }
 
-          // Height calculation — same widths & font sizes as drawing below
+          // Height calculation – same widths & font sizes as drawing below
           doc.setFontSize(10);
           const htLns = doc.splitTextToSize(kh.habit, HABIT_W);
           doc.setFontSize(9);
@@ -1573,7 +1612,7 @@
 
           let hy = y + 6;
 
-          // Badge — full width so text never wraps inside it
+          // Badge – full width so text never wraps inside it
           const bw = MW - 10;
           doc.setFillColor(...GOLD);
           doc.roundedRect(ML + 5, hy, bw, 8, 2, 2, 'F');
@@ -1616,7 +1655,7 @@
         doc.setFont('helvetica', 'normal');
         doc.setFontSize(8);
         doc.setTextColor(...GRAY);
-        doc.text('Trinity Advisory — KickStart Program', ML, 291);
+        doc.text('Trinity Advisory – KickStart Program', ML, 291);
         doc.text(`${exIdx + 1} / ${selectedExamples.length}`, PW - MR - 16, 291);
       });
 
@@ -1626,7 +1665,7 @@
     // ─────────────────────────────────────────────────────────────
     // Power Automate (optional)
     // ─────────────────────────────────────────────────────────────
-    async function sendViaPowerAutomate(fullName, email, selectedExamples) {
+    async function sendViaPowerAutomate(fullName, email, businessName, advisorName, selectedExamples) {
       if (!POWER_AUTOMATE_URL) return false;
       try {
         const res = await fetch(POWER_AUTOMATE_URL, {
@@ -1635,6 +1674,8 @@
           body: JSON.stringify({
             name: fullName,
             email: email,
+            business_name: businessName,
+            advisor_name: advisorName,
             selected_count: selectedExamples.length,
             examples_list: selectedExamples.map(e => `${e.num}. ${e.title}`).join('\n')
           })
@@ -1650,11 +1691,15 @@
     // Form submit
     // ─────────────────────────────────────────────────────────────
     async function submitPDFForm() {
-      const name  = document.getElementById('pdf-name').value.trim();
-      const email = document.getElementById('pdf-email').value.trim();
+      const name     = document.getElementById('pdf-name').value.trim();
+      const email    = document.getElementById('pdf-email').value.trim();
+      const business = document.getElementById('pdf-business').value.trim();
+      const advisor  = document.getElementById('pdf-advisor').value;
 
-      if (!name)  { document.getElementById('pdf-name').focus();  return; }
+      if (!name)     { document.getElementById('pdf-name').focus();     return; }
       if (!email || !email.includes('@')) { document.getElementById('pdf-email').focus(); return; }
+      if (!business) { document.getElementById('pdf-business').focus(); return; }
+      if (!advisor)  { document.getElementById('pdf-advisor').focus();  return; }
 
       const checkedIds = Array.from(document.querySelectorAll('.ex-checkbox:checked')).map(cb => cb.value);
       if (checkedIds.length === 0) { showToast('Please select at least one example.'); return; }
@@ -1666,23 +1711,23 @@
 
       try {
         if (!window.jspdf) throw new Error('PDF library not loaded');
-        const doc = generatePDF(name, selected);
+        const doc = generatePDF(name, business, advisor, selected);
         const filename = name.replace(/\s+/g, '_') + '_Success_Stack.pdf';
         doc.save(filename);
 
-        btn.textContent = POWER_AUTOMATE_URL ? 'Sending email…' : 'Done';
-        const emailSent = await sendViaPowerAutomate(name, email, selected);
+        btn.textContent = POWER_AUTOMATE_URL ? 'Sending…' : 'Done';
+        const sent = await sendViaPowerAutomate(name, email, business, advisor, selected);
 
         closeEmailModal();
-        const msg = emailSent
-          ? `PDF downloaded and confirmation sent to ${email}.`
-          : `Your PDF has been downloaded — check your Downloads folder.`;
+        const msg = sent
+          ? `PDF downloaded and details sent to your advisor.`
+          : `Your PDF has been downloaded – check your Downloads folder.`;
         showToast(msg, 5000);
       } catch (err) {
         console.error(err);
         showToast('Something went wrong. Please try again.');
       } finally {
-        btn.textContent = 'Email me my Success Stack';
+        btn.textContent = 'Download my PDF';
         btn.disabled = false;
       }
     }
